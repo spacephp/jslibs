@@ -19,7 +19,6 @@ class Chart {
         json[fields[index]] = value;
       });
       formatArr.push(json);
-      console.log(formatArr);
     });
     return formatArr; 
   }
