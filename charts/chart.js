@@ -11,8 +11,8 @@ class Chart {
     let formatArr = [];
     data = data.split("\n");
     let fields = data.shift().split(",");
-    console.log(data);
     data.forEach((update) => {
+      if (update == "") return;
       let values = update.split(",");
       let json = {};
       values.forEach((value, index) => {
