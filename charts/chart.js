@@ -16,7 +16,7 @@ class Chart {
       let values = update.split(",");
       let json = {};
       values.forEach((value, index) => {
-        json[fields[index]] = value;
+        json[fields[index].trim()] = value;
       });
       formatArr.push(json);
     });
@@ -29,24 +29,6 @@ class Chart {
       method: "GET"
     });
     return data;
-  }
-  
-  async google_sheet (url) {
-    let sheet = new Sheet;
-    
-    let formatArr = [];
-    data = data.split("\n");
-    let fields = data.shift().split(",");
-    data.forEach((update) => {
-      if (update == "") return;
-      let values = update.split(",");
-      let json = {};
-      values.forEach((value, index) => {
-        json[fields[index]] = value;
-      });
-      formatArr.push(json);
-    });
-    return formatArr;  
   }
   
 }
