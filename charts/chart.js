@@ -31,4 +31,22 @@ class Chart {
     return data;
   }
   
+  async google_sheet (url) {
+    let sheet = new Sheet;
+    
+    let formatArr = [];
+    data = data.split("\n");
+    let fields = data.shift().split(",");
+    data.forEach((update) => {
+      if (update == "") return;
+      let values = update.split(",");
+      let json = {};
+      values.forEach((value, index) => {
+        json[fields[index]] = value;
+      });
+      formatArr.push(json);
+    });
+    return formatArr;  
+  }
+  
 }
