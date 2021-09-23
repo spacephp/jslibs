@@ -3,7 +3,7 @@ class Sheet {
     this.key = key;
   }
 
-  async read() {
+  async read(url) {
     return await $.ajax({
       url: url,
       error: function (err) {
@@ -11,7 +11,7 @@ class Sheet {
       }
     });
   }
-  async write() {
+  async write(data) {
     return await $.ajax({
       url: "https://script.google.com/macros/s/AKfycbx1Qf5v8faZTPSUgv07ee-bL3OKuVUYD4REpWN53X7S88Xh8lfO/exec",
       type: "post",
