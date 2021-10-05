@@ -9,7 +9,7 @@ class Chart {
       method: "GET"
     });
     let formatArr = [];
-    data = data.split("\n");
+    data = data.split("\r\n");
     let fields = data.shift().split(",");
     data.forEach((update) => {
       if (update == "") return;
