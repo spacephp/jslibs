@@ -11,12 +11,23 @@ class Secp256k1 {
     if (ScalarHex < 1000000000000 or ScalarHex >= this.N) {
       return false;
     }
-    let ScalarBin = str(bin(ScalarHex))[2:]
+    let ScalarBin = ScalarHex.toString(2);
     let Q = this.GPoint
-    for i in range (1, len(ScalarBin)): # This is invented EC multiplication.
-        Q=ECdouble(Q); # print "DUB", Q[0]; print
-        if ScalarBin[i] == "1":
-            Q=ECadd(Q,GenPoint); # print "ADD", Q[0]; print
+    for (var i = 0; i < ScalarBin.length; i++) {
+      let n = ScalarBin[i];
+      Q = ECdouble(Q);
+      if (n == "1") {
+        Q = ECadd(Q,This.GPoint); 
+      }
+    }
     return (Q)
+  }
+
+  ECDouble(Q) {
+
+  }
+
+  ECAdd(Q) {
+
   }
 }
