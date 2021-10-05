@@ -8,7 +8,7 @@ class Secp256k1 {
   }
 
   EccMultiply(ScalarHex) {
-    if (ScalarHex < 1000000000000 or ScalarHex >= this.N) {
+    if (ScalarHex < 1000000000000 || ScalarHex >= this.N) {
       return false;
     }
     let ScalarBin = ScalarHex.toString(2);
