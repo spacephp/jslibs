@@ -15,19 +15,42 @@ class Secp256k1 {
     let Q = this.GPoint
     for (var i = 0; i < ScalarBin.length; i++) {
       let n = ScalarBin[i];
-      Q = ECdouble(Q);
+      Q = this.ECdouble(Q);
       if (n == "1") {
-        Q = ECadd(Q,This.GPoint); 
+        Q = this.ECAdd(Q,This.GPoint); 
       }
     }
     return (Q)
   }
 
   ECDouble(Q) {
-
+    let Lam = ((3*Q[0]*Q[0]+0) * this.modinv((2*Q[1]), this.Pcurve)) % this.Pcurve;
+    let x = (Lam*Lam-2*Q[0]) % this.Pcurve;
+    let y = (Lam*(Q[0]-x)-Q[1]) % this.Pcurve;
+    return [x,y];
   }
 
-  ECAdd(Q) {
+  ECAdd(a, b) {
+    let LamAdd = ((b[1]-a[1]) * this.modinv(b[0]-a[0], this.Pcurve)) % this.Pcurve;
+    let x = (LamAdd*LamAdd-a[0]-b[0]) % this.Pcurve;
+    let y = (LamAdd*(a[0]-x)-a[1]) % this.Pcurve;
+    return [x,y];
+  }
 
+  modinv(a, n = this.Pcurve) {
+    let lm = 1;
+    let hm = 0;
+    let low = a%n;
+    let high = n;
+    while (low > 1) {
+      let ratio = high/low;
+      let nm = hm-lm*ratio;
+      let new = high-low*ratio;
+      lm = nm;
+      low = new;
+      hm = lm;
+      high = low;
+    }
+    return lm % n;
   }
 }
