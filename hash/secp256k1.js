@@ -15,7 +15,7 @@ class Secp256k1 {
     let Q = this.GPoint
     for (var i = 0; i < ScalarBin.length; i++) {
       let n = ScalarBin[i];
-      Q = this.ECdouble(Q);
+      Q = this.ECDouble(Q);
       if (n == "1") {
         Q = this.ECAdd(Q,This.GPoint); 
       }
