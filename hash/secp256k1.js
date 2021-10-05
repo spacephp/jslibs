@@ -45,9 +45,9 @@ class Secp256k1 {
     while (low > 1) {
       let ratio = high/low;
       let nm = hm-lm*ratio;
-      let new = high-low*ratio;
+      let _new = high-low*ratio;
       lm = nm;
-      low = new;
+      low = _new;
       hm = lm;
       high = low;
     }
