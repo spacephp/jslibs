@@ -4,7 +4,7 @@ class Crypto {
   }
   
   static getPublicKeyFromPrivate(priKey, type = "BTC") {
-    let bnPriKey = new BN($priKey, 16);
+    let bnPriKey = new BN(priKey, 16);
 
     // Generating public key
     const publicKey = Secp256k1.generatePublicKeyFromPrivateKeyData(bnPriKey);
