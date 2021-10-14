@@ -52,7 +52,7 @@ class Model {
   }
 
   async sum(field) {
-    let docs = this.get();
+    let docs = await this.get();
     let total = 0;
     docs.forEach(doc => {
       let data = doc.data();
