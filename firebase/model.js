@@ -51,6 +51,16 @@ class Model {
     return await this.ref.doc(id).update(data);
   }
 
+  async sum(field) {
+    let docs = this.get();
+    let total = 0;
+    docs.forEach(doc => {
+      let data = doc.data();
+      total += data[field];
+    });
+    return total;
+  }
+
   async delete() {
 
   }
