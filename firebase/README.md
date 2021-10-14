@@ -1,4 +1,4 @@
-# Firebase javascript libraries
+# Firebase
 
 ## New project
 
