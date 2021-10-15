@@ -11,12 +11,12 @@ let additionalData = () => {
 }
 
 // login
-let authChanged = (user) => {
-  if (!user) {
-    // logout
-  } else {
-    // login
-  }
+let loggedIn = (user) => {
+  
+}
+
+let loggedOut = () => {
+
 }
 
 // call model
