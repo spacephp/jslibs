@@ -40,5 +40,9 @@ signupForm.addEventListener('submit', (e) => {
 
 // listen for auth status changes
 auth.onAuthStateChanged(async user => {
-  authChanged(user);
+  if (!user) {
+    loggedOut();
+  } else {
+    loggedIn(user);
+  }
 });
