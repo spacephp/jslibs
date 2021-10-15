@@ -36,12 +36,11 @@ const db = firebase.firestore();
 
 ### Our firebase libraries
 ```html
-<script src="https://oangia.github.io/jslibs/firebase/model.js"></script>
-<script src="https://oangia.github.io/jslibs/firebase/auth.js"></script>
+<script src="https://oangia.github.io/jslibs/firebase/firebase-core.js"></script>
 ```
 
 ### Controller
-Your own code will be in `controller.js` file
+Your own code will be in `controller.js` file. We have sample file in this lib.
 
 ```html
 <script src="controller.js"></script>
