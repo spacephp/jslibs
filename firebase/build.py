@@ -1,16 +1,21 @@
-file1 = open("model.js","r")
+model = open("model.js","r")
 
-str = file1.read() + "\r\n"
+str = model.read() + "\r\n"
 
-file2 = open("auth.js","r")
+auth = open("auth.js","r")
 
-str += file2.read() + "\r\n"
+str += auth.read() + "\r\n"
+
+view = open("view.js","r")
+
+str += view.read() + "\r\n"
 
 build = open("firebase-core.js","w")
 
 build.write(str)
 
 build.close()
-file2.close()
-file1.close()
+model.close()
+auth.close()
+view.close()
 print("Done")
