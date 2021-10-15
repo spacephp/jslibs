@@ -120,7 +120,11 @@ $( document ).ready(function() {
   // listen for auth status changes
   auth.onAuthStateChanged(async user => {
     if (!user) {
-      loggedOut();
+      if (loggedOut != undefined) {
+        loggedOut();
+      } else {
+        location.reload();
+      }
     } else {
       loggedIn(user);
     }
