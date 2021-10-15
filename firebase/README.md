@@ -48,7 +48,7 @@ let additionalData = () => {
   return {};
 }
 ```
-##### Produce when user login/logout
+##### Proceduce when user login/logout
 ```js
 let loggedOut = () => {
   
