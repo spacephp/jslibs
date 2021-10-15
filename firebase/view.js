@@ -6,7 +6,7 @@ class View {
   list(data) {
     let config = {
       fullname: {
-        header: "Full Name
+        header: "Full Name"
       },
       equity: {
         header: "Equity"
