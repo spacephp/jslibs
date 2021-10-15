@@ -137,7 +137,7 @@ class View {
 
   }
 
-  static list(collection, config) {
+  static async list(collection, config) {
     let ref = new Model(collection);
     let data = await ref.all();
 
