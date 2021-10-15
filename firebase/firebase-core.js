@@ -137,25 +137,10 @@ class View {
 
   }
 
-  list(data) {
-    let config = [
-      {
-        field: "fullname",
-        header: "Full Name"
-      },
-      {
-        field: "equity",
-        header: "Equity"
-      },
-      {
-        field: "ccq",
-        header: "CCQ"
-      },
-      {
-        field: "created_at",
-        header: "Created At"
-      }
-    ];
+  static list(collection, config) {
+    let ref = new Model(collection);
+    let data = await ref.all();
+
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
