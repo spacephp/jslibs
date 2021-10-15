@@ -70,6 +70,12 @@ class Model {
   }
 }
 
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
 const loginForm = document.querySelector('#login-form');
 const logout = document.querySelector('#logout');
 const signupForm = document.querySelector('#signup-form');
@@ -112,6 +118,10 @@ signupForm.addEventListener('submit', (e) => {
 
 // listen for auth status changes
 auth.onAuthStateChanged(async user => {
-  authChanged(user);
+  if (!user) {
+    loggedOut();
+  } else {
+    loggedIn(user);
+  }
 });
 
