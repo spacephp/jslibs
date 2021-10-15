@@ -70,13 +70,7 @@ class Model {
   }
 }
 
-// Initialize Firebase
 $( document ).ready(function() {
-  firebase.initializeApp(firebaseConfig);
-
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-
   const loginForm = document.querySelector('#login-form');
   const logout = document.querySelector('#logout');
   const signupForm = document.querySelector('#signup-form');
@@ -131,7 +125,6 @@ $( document ).ready(function() {
       loggedIn(user);
     }
   });
-
 });
 
 
