@@ -3,7 +3,7 @@ class View {
 
   }
 
-  list() {
+  list(data) {
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
@@ -11,9 +11,12 @@ class View {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
-    html += '<tr>';
-    html += '<td><a href="pages/examples/invoice.html">OR9842</a></td>';                 
-    html += '</tr>';
+    data.forEach(item => {
+      let itemData = item.data();
+      html += '<tr id="' + item.id + '">';
+      html += '<td>Item</td>';                 
+      html += '</tr>';
+    });
     html += '</tbody>';
     html += '</table>';
     return html;
