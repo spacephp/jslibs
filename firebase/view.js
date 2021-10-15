@@ -4,20 +4,24 @@ class View {
   }
 
   list(data) {
-    let config = {
-      fullname: {
+    let config = [
+      {
+        field: "fullname",
         header: "Full Name"
       },
-      equity: {
+      {
+        field: "equity",
         header: "Equity"
       },
-      ccq: {
+      {
+        field: "ccq",
         header: "CCQ"
       },
-      created_at: {
+      {
+        field: "created_at",
         header: "Created At"
       }
-    }
+    ];
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
@@ -30,8 +34,8 @@ class View {
     data.forEach(item => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
-      config.forEach((configItem, field) => {
-        html += '<td>' + itemData[field] +'</td>';    
+      config.forEach(configItem => {
+        html += '<td>' + itemData[configItem.field] +'</td>';
       });
       html += '</tr>';
     });
