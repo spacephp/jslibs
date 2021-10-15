@@ -50,12 +50,12 @@ let additionalData = () => {
 ```
 ##### Produce when user login/logout
 ```js
-let authChanged = (user) => {
-  if (!user) {
-    // logout
-  } else {
-    // login
-  }
+let loggedOut = () => {
+  
+}
+
+let loggedIn = (user) => {
+
 }
 ```
 ##### Call model
