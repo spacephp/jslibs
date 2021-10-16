@@ -214,7 +214,7 @@ class Crud {
     this.lastedDoc = null;
     this.list = [];
     this.pagination = 10;
-    this.refData = [];
+    this.refData = {};
   }
 
   orderBy(field, type="desc") {
