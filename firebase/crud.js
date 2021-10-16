@@ -2,7 +2,7 @@ class Crud {
   constructor() {
     this.orderBy = "created_at";
     this.orderByType = "desc
-    this.lastDoc = null;
+    this.lastedDoc = null;
     this.list = [];
     this.pagination = 10;
   }
