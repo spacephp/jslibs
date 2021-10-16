@@ -3,6 +3,7 @@ class Model {
     this.getOptions = {};
     this.table = tableName;
     this.ref = db.collection(tableName);
+    this.refData = [];
   }
  
   source(from) {
@@ -76,6 +77,23 @@ class Model {
 
   }
 
+  async reference(refType, id) {
+    let info = refType.split(".");
+    let collection = info[0];
+    let field = info[1];
+    if (this.refData[collection] == undefined) {
+      this.refData[collection] = [];
+    }
+
+    if (!this.refData[collection].keys().includes(id)) {
+      let ref = new Model(info[0]);
+      let data = await ref.findById(id);
+      this.refData[collection][id] = data.data()[field];
+    }
+    
+    return this.refData[collection][id];
+  }
+
   clone() {
     return Object.assign(Object.create(Object.getPrototypeOf(this)), this)
   }
@@ -143,7 +161,7 @@ $( document ).ready(function() {
 
 class View {
   constructor() {
-    this.refData = [];
+    
   }
 
   static async list(crud) {
@@ -183,7 +201,7 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            html += '<td>' + this.reference(refType, itemData[configItem.field]) +'</td>';
+            html += '<td>' + ref.reference(refType, itemData[configItem.field]) +'</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
@@ -194,23 +212,6 @@ class View {
     html += '</tbody>';
     html += '</table>';
     return html;
-  }
-
-  async reference(refType, id) {
-    let info = refType.split(".");
-    let collection = info[0];
-    let field = info[1];
-    if (this.refData[collection] == undefined) {
-      this.refData[collection] = [];
-    }
-
-    if (!this.refData[collection].keys().includes(id)) {
-      let ref = new Model(info[0]);
-      let data = await ref.findById(id);
-      this.refData[collection][id] = data.data()[field];
-    }
-    
-    return this.refData[collection][id];
   }
 }
 
