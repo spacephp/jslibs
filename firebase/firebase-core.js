@@ -236,7 +236,7 @@ class Crud {
       this.refData[collection] = [];
     }
 
-    if (this.refData[collection].empty || !this.refData[collection].keys().includes(id)) {
+    if (this.refData[collection][id] == undefined) {
       let ref = new Model(info[0]);
       let data = await ref.findById(id);
       this.refData[collection][id] = data.data()[field];
