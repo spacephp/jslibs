@@ -184,8 +184,8 @@ class View {
             break;
           case "reference":
             let refType = configItem.config.reference;
-            //let id = itemData[configItem.field];
-            //let fieldData = await crud.reference(refType, id);
+            let id = itemData[configItem.field];
+            let fieldData = await crud.reference(refType, id);
             
             html += '<td>' + refType + '</td>';
             break;
