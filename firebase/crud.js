@@ -6,6 +6,11 @@ class Crud {
     this.list = [];
     this.pagination = 10;
   }
+
+  orderBy(field, type="desc") {
+    this.orderBy = field;
+    this.orderByType = type;
+  }
   
   paginate(pagination) {
     this.pagination = pagination;
