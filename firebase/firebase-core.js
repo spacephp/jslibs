@@ -186,9 +186,8 @@ class View {
             let refType = configItem.config.reference;
             let id = itemData[configItem.field];
             let fieldData = await crud.reference(refType, id);
-            console.log(refType);
-            console.log(id); console.log(fieldData);
-            html += '<td>' + fieldData +'</td>';
+            html += 'acb';
+            html += '<td>' + fieldData + '</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
