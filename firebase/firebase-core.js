@@ -196,7 +196,7 @@ class View {
     return html;
   }
 
-  reference(refType, id) {
+  async reference(refType, id) {
     let info = refType.split(".");
     let collection = info[0];
     let field = info[1];
