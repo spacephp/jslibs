@@ -1,5 +1,6 @@
 class Crud {
   constructor(collection) {
+    this.collection = collection;
     this.orderBy = "created_at";
     this.orderByType = "desc
     this.lastedDoc = null;
