@@ -155,6 +155,7 @@ class View {
     }
     ref = ref.startAt(config.lastDoc || 0).limit(config.pagination || 10);
     let data = await ref.get();
+    console.log(data);
     config.lastDoc = data[data.length - 1];
     let html = '<table class="table m-0">';
     html += '<thead>';
