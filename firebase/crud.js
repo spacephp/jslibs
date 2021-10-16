@@ -1,5 +1,5 @@
 class Crud {
-  constructor() {
+  constructor(collection) {
     this.orderBy = "created_at";
     this.orderByType = "desc
     this.lastedDoc = null;
@@ -16,7 +16,11 @@ class Crud {
     this.pagination = pagination;
   }
   
-  addListConfig(field, config = {}) {
+  addList(field, config = {}) {
     this.list.push({field: field, config: config});
+  }
+
+  async list() {
+    return await View.list(this);
   }
 }
