@@ -11,9 +11,20 @@ class Model {
     };
     return this;
   }
+  
   orderBy(field, type = "asc") {
     this.ref = this.ref.orderBy(field, type);
     return this;
+  }
+  
+  startAt(lastDoc) {
+    this.ref = this.ref.startAt(lastDoc);
+    return this; 
+  }
+  
+  limit(pageination) {
+    this.ref = this.ref.limit(pagination);
+    return this; 
   }
 
   where(field, operator, value) {
@@ -137,8 +148,14 @@ class View {
 
   static async list(collection, config) {
     let ref = new Model(collection);
-    let data = await ref.all();
-
+    if (config.orderBy == undefined) {
+      ref = ref.orderBy("created_at");
+    } else {
+      ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
+    }
+    ref = ref.startAt(config.lastDoc || 0).limit(config.pagination || 10);
+    let data = await ref.get();
+    config.lastDoc = data[data.length - 1];
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
