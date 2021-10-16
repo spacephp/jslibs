@@ -201,7 +201,7 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            html += '<td>' + ref.reference(refType, itemData[configItem.field]) +'</td>';
+            html += '<td>' + ref.reference(configItem.config.refType, itemData[configItem.field]) +'</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
