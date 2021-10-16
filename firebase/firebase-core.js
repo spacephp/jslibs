@@ -146,22 +146,17 @@ class View {
 
   }
 
-  static async list(collection, config) {
-    let ref = new Model(collection);
-    //if (config.orderBy == undefined) {
-    //  ref = ref.orderBy("created_at");
-    //} else {
-    //  ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
-    //}
- 
-    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(new Date()).limit(config.pagination || 10);
-    let data = await ref.get();
-    console.log(data);
+  static async list(crud) {
+    let ref = new Model(crud.collection);
+    let config = crud.config;
+    
+    let data = await ref.orderBy(config.orderBy, config.orderByType)
+             .startAfter(config.lastedDoc || new Date())
+             .limit(config.pagination)
+             .get();
+
     config.lastDoc = data[data.length - 1];
-    console.log(config.lastDoc);
-    let ref2 = new Model(collection);
-    ref2 = ref2.orderBy(config.orderBy.field, config.orderBy.type).startAfter(config.lastDoc).limit(config.pagination || 10);
-    data = await ref2.get();
+
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
