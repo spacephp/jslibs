@@ -159,7 +159,7 @@ class View {
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
-    config.forEach(item => {
+    config.table.forEach(item => {
       html += '<th>' + item.header + '</th>';
     });
     html += '</tr>';
@@ -168,7 +168,7 @@ class View {
     data.forEach(item => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
-      config.forEach(configItem => {
+      config.table.forEach(configItem => {
         html += '<td>' + itemData[configItem.field] +'</td>';
       });
       html += '</tr>';
