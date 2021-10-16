@@ -153,7 +153,8 @@ class View {
     //} else {
     //  ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
     //}
-    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(config.lastDoc).limit(config.pagination || 10);
+    let lastedDoc = ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
+    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(lastedDoc).limit(config.pagination || 10);
     let data = await ref.get();
     console.log(data);
     config.lastDoc = data[data.length - 1];
