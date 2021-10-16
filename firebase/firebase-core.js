@@ -185,7 +185,7 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            
+            console.log(crud.refData["users"]);
             let refType = configItem.config.reference.split(".");
             let id = itemData[configItem.field];
             console.log(refType); console.log(id); console.log(crud.refData[refType[0]]);
