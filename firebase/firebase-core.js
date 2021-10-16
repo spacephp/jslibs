@@ -171,7 +171,7 @@ class View {
       crud.list.forEach(configItem => {
         switch (configItem.config.type) {
           case "datetime":
-            html += '<td>' + dateToString(new Date(itemData[configItem.field])) +'</td>';
+            html += '<td>' + dateToString(itemData[configItem.field].toDate()) +'</td>';
             break;
           case "vnd":
             html += '<td class"align-right">' + vnd(itemData[configItem.field]) +'</td>';
