@@ -18,7 +18,7 @@ class Model {
   }
   
   startAfter(lastDoc) {
-    this.ref = this.ref.startAt(lastDoc);
+    this.ref = this.ref.startAfter(lastDoc);
     return this; 
   }
   
@@ -153,7 +153,7 @@ class View {
     //} else {
     //  ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
     //}
-    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(0).limit(config.pagination || 10);
+    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(config.lastDoc).limit(config.pagination || 10);
     let data = await ref.get();
     console.log(data);
     config.lastDoc = data[data.length - 1];
