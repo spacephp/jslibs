@@ -165,10 +165,10 @@ class View {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
-    data.forEach(async (item) => {
+    data.forEach((item) => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
-      crud.list.forEach(configItem => {
+      crud.list.forEach(async (configItem) => {
         switch (configItem.config.type) {
           case "datetime":
             html += '<td class="text-center">' + dateToString(itemData[configItem.field].toDate()) +'</td>';
