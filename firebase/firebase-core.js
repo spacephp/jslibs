@@ -157,6 +157,7 @@ class View {
     if (collection == "transactions") {
       lastedDoc= ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
     }
+    console.log(lastedDoc);
     ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(lastedDoc).limit(config.pagination || 10);
     let data = await ref.get();
     console.log(data);
