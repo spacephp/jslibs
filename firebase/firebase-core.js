@@ -150,7 +150,7 @@ class View {
     let ref = new Model(crud.collection);
     let config = crud.config;
     
-    let data = await ref.orderBy(config.orderBy, config.orderByType)
+    let data = await ref.orderBy(config.orderByField, config.orderByType)
              .startAfter(config.lastedDoc || new Date())
              .limit(config.pagination)
              .get();
