@@ -160,7 +160,7 @@ class View {
     html += '<thead>';
     html += '<tr>';
     crud.list.forEach(item => {
-      html += '<th>' + item.config.header + '</th>';
+      html += '<th class="text-center">' + item.config.header + '</th>';
     });
     html += '</tr>';
     html += '</thead>';
@@ -171,7 +171,7 @@ class View {
       crud.list.forEach(configItem => {
         switch (configItem.config.type) {
           case "datetime":
-            html += '<td>' + dateToString(itemData[configItem.field].toDate()) +'</td>';
+            html += '<td class="text-center">' + dateToString(itemData[configItem.field].toDate()) +'</td>';
             break;
           case "vnd":
             html += '<td class="text-right">' + vnd(itemData[configItem.field]) +'</td>';
