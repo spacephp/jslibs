@@ -153,15 +153,12 @@ class View {
     //} else {
     //  ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
     //}
-    let lastedDoc = null;
-    if (collection == "transactions") {
-      lastedDoc= await ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
-    }
-    console.log(lastedDoc);
-    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(lastedDoc).limit(config.pagination || 10);
+ 
+    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(new Date()).limit(config.pagination || 10);
     let data = await ref.get();
     console.log(data);
     config.lastDoc = data[data.length - 1];
+    console.log(config.lastDoc);
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
