@@ -3,14 +3,21 @@ class View {
 
   }
 
-  static list(collection, config) {
-    let ref = new Model(collection);
-    let data = await ref.all();
+  static async list(crud) {
+    let ref = new Model(crud.collection);
+    let config = crud.config;
+    
+    let data = await ref.orderBy(config.orderByField, config.orderByType)
+             .startAfter(config.lastedDoc || new Date())
+             .limit(config.pagination)
+             .get();
+
+    config.lastDoc = data[data.length - 1];
 
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
-    config.forEach(item => {
+    config.table.forEach(item => {
       html += '<th>' + item.header + '</th>';
     });
     html += '</tr>';
@@ -19,7 +26,7 @@ class View {
     data.forEach(item => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
-      config.forEach(configItem => {
+      config.table.forEach(configItem => {
         html += '<td>' + itemData[configItem.field] +'</td>';
       });
       html += '</tr>';
