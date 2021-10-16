@@ -11,9 +11,20 @@ class Model {
     };
     return this;
   }
+  
   orderBy(field, type = "asc") {
     this.ref = this.ref.orderBy(field, type);
     return this;
+  }
+  
+  startAfter(lastDoc) {
+    this.ref = this.ref.startAfter(lastDoc);
+    return this; 
+  }
+  
+  limit(pagination) {
+    this.ref = this.ref.limit(pagination);
+    return this; 
   }
 
   where(field, operator, value) {
