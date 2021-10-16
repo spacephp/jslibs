@@ -161,7 +161,7 @@ class View {
     console.log(config.lastDoc);
     let ref2 = new Model(collection);
     ref2 = ref2.orderBy(config.orderBy.field, config.orderBy.type).startAfter(config.lastDoc).limit(config.pagination || 10);
-    data = ref2.get();
+    data = await ref2.get();
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
