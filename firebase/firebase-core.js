@@ -148,12 +148,12 @@ class View {
 
   static async list(collection, config) {
     let ref = new Model(collection);
-    if (config.orderBy == undefined) {
-      ref = ref.orderBy("created_at");
-    } else {
-      ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
-    }
-    ref = ref.startAfter(config.lastDoc || 0).limit(config.pagination || 10);
+    //if (config.orderBy == undefined) {
+    //  ref = ref.orderBy("created_at");
+    //} else {
+    //  ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
+    //}
+    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(config.lastDoc || 0).limit(config.pagination || 10);
     let data = await ref.get();
     console.log(data);
     config.lastDoc = data[data.length - 1];
