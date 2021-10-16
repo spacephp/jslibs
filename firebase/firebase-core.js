@@ -3,7 +3,6 @@ class Model {
     this.getOptions = {};
     this.table = tableName;
     this.ref = db.collection(tableName);
-    this.refData = [];
   }
  
   source(from) {
@@ -75,23 +74,6 @@ class Model {
 
   async delete() {
 
-  }
-
-  async reference(refType, id) {
-    let info = refType.split(".");
-    let collection = info[0];
-    let field = info[1];
-    if (this.refData[collection] == undefined) {
-      this.refData[collection] = [];
-    }
-
-    if (!this.refData[collection].keys().includes(id)) {
-      let ref = new Model(info[0]);
-      let data = await ref.findById(id);
-      this.refData[collection][id] = data.data()[field];
-    }
-    
-    return this.refData[collection][id];
   }
 
   clone() {
@@ -201,7 +183,7 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            html += '<td>' + (await ref.reference(configItem.config.reference, itemData[configItem.field])) +'</td>';
+            html += '<td>' + (await crud.reference(configItem.config.reference, itemData[configItem.field])) +'</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
@@ -223,6 +205,7 @@ class Crud {
     this.lastedDoc = null;
     this.list = [];
     this.pagination = 10;
+    this.refData = [];
   }
 
   orderBy(field, type="desc") {
@@ -240,5 +223,22 @@ class Crud {
 
   async table() {
     return await View.list(this);
+  }
+
+  async reference(refType, id) {
+    let info = refType.split(".");
+    let collection = info[0];
+    let field = info[1];
+    if (this.refData[collection] == undefined) {
+      this.refData[collection] = [];
+    }
+
+    if (!this.refData[collection].keys().includes(id)) {
+      let ref = new Model(info[0]);
+      let data = await ref.findById(id);
+      this.refData[collection][id] = data.data()[field];
+    }
+    
+    return this.refData[collection][id];
   }
 }
