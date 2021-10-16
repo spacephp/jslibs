@@ -155,7 +155,7 @@ class View {
     //}
     let lastedDoc = null;
     if (collection == "transactions") {
-      lastedDoc= ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
+      lastedDoc= await ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
     }
     console.log(lastedDoc);
     ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(lastedDoc).limit(config.pagination || 10);
