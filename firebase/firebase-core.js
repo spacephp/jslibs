@@ -183,11 +183,11 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            //let refType = configItem.config.reference;
+            let refType = configItem.config.reference;
             //let id = itemData[configItem.field];
             //let fieldData = await crud.reference(refType, id);
-            //html += 'acb';
-            html += '<td>!cb</td>';
+            
+            html += '<td>' + refType + '</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
