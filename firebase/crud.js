@@ -1,7 +1,7 @@
 class Crud {
   constructor(collection) {
     this.collection = collection;
-    this.orderBy = "created_at";
+    this.orderByField = "created_at";
     this.orderByType = "desc";
     this.lastedDoc = null;
     this.list = [];
@@ -9,7 +9,7 @@ class Crud {
   }
 
   orderBy(field, type="desc") {
-    this.orderBy = field;
+    this.orderByField = field;
     this.orderByType = type;
   }
   
@@ -21,7 +21,7 @@ class Crud {
     this.list.push({field: field, config: config});
   }
 
-  async list() {
+  async table() {
     return await View.list(this);
   }
 }
