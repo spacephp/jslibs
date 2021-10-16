@@ -242,7 +242,7 @@ class Crud {
       let field = info[1];
 
       if (this.refData[collection] == undefined) {
-        this.refData[collection] = [];
+        this.refData[collection] = {};
       }
       
       data.forEach(async (doc) => {
