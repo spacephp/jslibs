@@ -189,8 +189,7 @@ class View {
             let refType = configItem.config.reference.split(".");
             let id = itemData[configItem.field];
             let refData = crud.refData[refType[0]];
-            console.log(typeof(refData)); 
-            console.log(refData[0]); 
+            console.log(refData); 
             console.log(refData[id]);
             html += '<td>' + refData[id] + '</td>';
             break;
