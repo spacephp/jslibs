@@ -36,6 +36,7 @@ $( document ).ready(function() {
       const password = signupForm['signup-password'].value;
       // sign up the user & add firestore data
       auth.createUserWithEmailAndPassword(email, password).then(cred => {
+        if (additionalData == undefined) return;
         return db.collection('users').doc(cred.user.uid).set(additionalData());
       }).then(() => {
         // close the signup modal & reset form
@@ -48,11 +49,8 @@ $( document ).ready(function() {
   // listen for auth status changes
   auth.onAuthStateChanged(async user => {
     if (!user) {
-      if (loggedOut != undefined) {
-        loggedOut();
-      } else {
-        location.reload();
-      }
+      if (loggedOut == undefined) location.reload();
+      loggedOut();
     } else {
       loggedIn(user);
     }
