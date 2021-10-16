@@ -154,7 +154,7 @@ class View {
              .limit(crud.pagination)
              .get();
 
-    await crud.reference(data);
+    let refs = await crud.reference(data);
     crud.lastDoc = data[data.length - 1];
 
     let html = '<table class="table m-0">';
@@ -166,7 +166,7 @@ class View {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
-    console.log(crud.refData);
+    console.log(refs);
     data.forEach((item) => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
@@ -185,12 +185,11 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            
             let refType = configItem.config.reference.split(".");
             let id = itemData[configItem.field];
-            let refData = crud.refData[refType[0]];
+            let refData = refs[refType[0]];
             console.log(refData); 
-            console.log(refData[""+id+""]);
+            console.log(refData[id]);
             html += '<td>' + refData[id] + '</td>';
             break;
           default:
@@ -234,24 +233,26 @@ class Crud {
   }
 
   async reference(data) {
+    let refs = {};
     this.list.forEach(item => {
       if (item.config.type != "reference") return;
       let info = item.config.reference.split(".");
       let collection = info[0];
       let field = info[1];
 
-      if (this.refData[collection] == undefined) {
-        this.refData[collection] = {};
+      if (refs[collection] == undefined) {
+        refs[collection] = {};
       }
       
       data.forEach(async (doc) => {
         let id = doc.data()[item.field];
-        if (this.refData[collection][id] == undefined) {
+        if (refs[collection][id] == undefined) {
           let ref = new Model(info[0]);
           let data = await ref.findById(id);
-          this.refData[collection][id] = data.data()[field];
+          refs[collection][id] = data.data()[field];
         }
       });
     });
+    return refs;
   }
 }
