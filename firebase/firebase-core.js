@@ -154,6 +154,7 @@ class View {
              .limit(crud.pagination)
              .get();
 
+    await crud.reference(data);
     crud.lastDoc = data[data.length - 1];
 
     let html = '<table class="table m-0">';
@@ -169,11 +170,6 @@ class View {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
       crud.list.forEach(async (configItem) => {
-        if (configItem.config.type == "reference") {
-          let refType = configItem.config.reference;
-          let id = itemData[configItem.field];
-          let fieldData = await crud.reference(refType, id);
-        }
         switch (configItem.config.type) {
           case "datetime":
             html += '<td class="text-center">' + dateToString(itemData[configItem.field].toDate()) +'</td>';
@@ -188,7 +184,9 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            html += '<td>' + fieldData + '</td>';
+            let refType = configItem.config.reference.split(".");
+            let id = itemData[configItem.field];
+            html += '<td>' + crud.refData[refType[0]][id] + '</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
@@ -230,20 +228,25 @@ class Crud {
     return await View.list(this);
   }
 
-  async reference(refType, id) {
-    let info = refType.split(".");
-    let collection = info[0];
-    let field = info[1];
-    if (this.refData[collection] == undefined) {
-      this.refData[collection] = [];
-    }
+  async reference(data) {
+    this.list.forEach(item => {
+      if (item.config.type != "reference") return;
+      let info = item.config.reference.split(".");
+      let collection = info[0];
+      let field = info[1];
 
-    if (this.refData[collection][id] == undefined) {
-      let ref = new Model(info[0]);
-      let data = await ref.findById(id);
-      this.refData[collection][id] = data.data()[field];
-    }
-    
-    return this.refData[collection][id];
+      if (this.refData[collection] == undefined) {
+        this.refData[collection] = [];
+      }
+      
+      data.forEach(async (doc) => {
+        let id = doc.data()[item.field];
+        if (this.refData[collection][id] == undefined) {
+          let ref = new Model(info[0]);
+          let data = await ref.findById(id);
+          this.refData[collection][id] = data.data()[field];
+        }
+      });
+    });
   }
 }
