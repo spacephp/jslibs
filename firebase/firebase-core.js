@@ -169,7 +169,25 @@ class View {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
       crud.list.forEach(configItem => {
-        html += '<td>' + itemData[configItem.field] +'</td>';
+        switch (configItem.config.type) {
+          case "datetime":
+            html += '<td>' + dateToString(itemData[configItem.field]) +'</td>';
+            break;
+          case "vnd":
+            html += '<td class"align-right">' + vnd(itemData[configItem.field]) +'</td>';
+            break;
+          case "float":
+            html += '<td class"align-right">' + itemData[configItem.field] +'</td>';
+            break;
+          case "percent":
+            html += '<td class"align-right">' + percent(itemData[configItem.field]) +'</td>';
+            break;
+          case "reference":
+            html += '<td>' + itemData[configItem.field] +'</td>';
+            break;
+          default:
+            html += '<td>' + itemData[configItem.field] +'</td>';
+        }
       });
       html += '</tr>';
     });
