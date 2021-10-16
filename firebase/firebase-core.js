@@ -153,7 +153,10 @@ class View {
     //} else {
     //  ref = ref.orderBy(config.orderBy.field, config.orderBy.type); 
     //}
-    let lastedDoc = ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
+    let lastedDoc = null;
+    if (collection == "transactions") {
+      lastedDoc= ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
+    }
     ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(lastedDoc).limit(config.pagination || 10);
     let data = await ref.get();
     console.log(data);
