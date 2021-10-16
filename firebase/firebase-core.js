@@ -169,6 +169,11 @@ class View {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
       crud.list.forEach(async (configItem) => {
+        if (configItem.config.type == "reference") {
+          let refType = configItem.config.reference;
+          let id = itemData[configItem.field];
+          let fieldData = await crud.reference(refType, id);
+        }
         switch (configItem.config.type) {
           case "datetime":
             html += '<td class="text-center">' + dateToString(itemData[configItem.field].toDate()) +'</td>';
@@ -183,11 +188,7 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            let refType = configItem.config.reference;
-            let id = itemData[configItem.field];
-            let fieldData = await crud.reference(refType, id);
-            
-            html += '<td>' + refType + '</td>';
+            html += '<td>' + fieldData + '</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
