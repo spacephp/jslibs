@@ -18,7 +18,7 @@ class Model {
   }
   
   startAfter(lastDoc) {
-    this.ref = this.ref.startAfter(lastDoc);
+    this.ref = this.ref.startAt(lastDoc);
     return this; 
   }
   
