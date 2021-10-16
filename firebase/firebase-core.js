@@ -174,13 +174,13 @@ class View {
             html += '<td>' + dateToString(itemData[configItem.field].toDate()) +'</td>';
             break;
           case "vnd":
-            html += '<td class"text-right">' + vnd(itemData[configItem.field]) +'</td>';
+            html += '<td class="text-right">' + vnd(itemData[configItem.field]) +'</td>';
             break;
           case "float":
-            html += '<td class"text-right">' + itemData[configItem.field] +'</td>';
+            html += '<td class="text-right">' + itemData[configItem.field] +'</td>';
             break;
           case "percent":
-            html += '<td class"text-right">' + percent(itemData[configItem.field]) +'</td>';
+            html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
             html += '<td>' + itemData[configItem.field] +'</td>';
