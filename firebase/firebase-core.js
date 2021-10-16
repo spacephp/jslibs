@@ -166,6 +166,7 @@ class View {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
+    console.log(crud.refData);
     data.forEach((item) => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
@@ -184,8 +185,10 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
+            
             let refType = configItem.config.reference.split(".");
             let id = itemData[configItem.field];
+            console.log(crud.refData[refType[0]][id]);
             html += '<td>' + crud.refData[refType[0]][id] + '</td>';
             break;
           default:
