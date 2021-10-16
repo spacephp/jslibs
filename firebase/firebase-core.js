@@ -183,7 +183,7 @@ class View {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
-    data.forEach(item => {
+    data.forEach(async (item) => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
       crud.list.forEach(configItem => {
@@ -201,7 +201,7 @@ class View {
             html += '<td class="text-right">' + percent(itemData[configItem.field]) +'</td>';
             break;
           case "reference":
-            html += '<td>' + ref.reference(configItem.config.reference, itemData[configItem.field]) +'</td>';
+            html += '<td>' + (await ref.reference(configItem.config.reference, itemData[configItem.field])) +'</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
