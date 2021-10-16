@@ -159,6 +159,8 @@ class View {
     console.log(data);
     config.lastDoc = data[data.length - 1];
     console.log(config.lastDoc);
+    ref = ref.orderBy(config.orderBy.field, config.orderBy.type).startAfter(config.lastDoc).limit(config.pagination || 10);
+    data = ref.get();
     let html = '<table class="table m-0">';
     html += '<thead>';
     html += '<tr>';
