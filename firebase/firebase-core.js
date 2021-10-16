@@ -22,7 +22,7 @@ class Model {
     return this; 
   }
   
-  limit(pageination) {
+  limit(pagination) {
     this.ref = this.ref.limit(pagination);
     return this; 
   }
