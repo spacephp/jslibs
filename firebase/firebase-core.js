@@ -232,27 +232,14 @@ class Crud {
     return await View.list(this);
   }
 
-  async reference(data) {
-    let refs = {};
-    this.list.forEach(item => {
-      if (item.config.type != "reference") return;
-      let info = item.config.reference.split(".");
-      let collection = info[0];
-      let field = info[1];
-
-      if (refs[collection] == undefined) {
-        refs[collection] = {};
-      }
-      
-      data.forEach(async (doc) => {
-        let id = doc.data()[item.field];
-        if (refs[collection][id] == undefined) {
-          let ref = new Model(info[0]);
-          let data = await ref.findById(id);
-          refs[collection][id] = data.data()[field];
-        }
-      });
+  async reference(collection, field) {
+    let ref = new Model(collection);
+    let data = await ref.all();
+    let result = [];
+    data.forEach(doc => {
+      result[doc.id] = doc.data()[field];
     });
-    return refs;
+
+    this.ref = result;
   }
 }
