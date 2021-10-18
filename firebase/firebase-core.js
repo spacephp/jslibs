@@ -146,12 +146,6 @@ class View {
     
   }
 
-  static create(crud) {
-    let html = "";
-    
-    return html;
-  }
-
   static async list(crud) {
     let ref = new Model(crud.collection);
     
@@ -234,7 +228,7 @@ class Crud {
   }
 
   async create() {
-    return View.create(this);
+    
   }
 
   store() {
