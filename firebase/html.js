@@ -8,7 +8,7 @@ class Html {
     data.forEach((item, index) => {
       html += '<option value="' + index + '">' + item + '</option>';
     });
-    return html;
+    $(el).html(html);
   }
 
 }
