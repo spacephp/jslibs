@@ -4,27 +4,27 @@ class Model {
     this.table = tableName;
     this.ref = db.collection(tableName);
   }
- 
+
   source(from) {
     this.getOptions = {
       source: 'cache'
     };
     return this;
   }
-  
+
   orderBy(field, type = "asc") {
     this.ref = this.ref.orderBy(field, type);
     return this;
   }
-  
+
   startAfter(lastDoc) {
     this.ref = this.ref.startAfter(lastDoc);
-    return this; 
+    return this;
   }
-  
+
   limit(pagination) {
     this.ref = this.ref.limit(pagination);
-    return this; 
+    return this;
   }
 
   where(field, operator, value) {
@@ -140,20 +140,19 @@ $( document ).ready(function() {
   });
 });
 
-
 class View {
   constructor() {
-    
+
   }
 
   static async list(crud) {
     let ref = new Model(crud.collection);
-    
+
     let data = await ref.orderBy(crud.orderByField, crud.orderByType)
-             .startAfter(crud.lastedDoc || new Date())
-             .limit(crud.pagination)
-             .get();
-    
+        .startAfter(crud.lastedDoc || new Date())
+        .limit(crud.pagination)
+        .get();
+
     crud.lastDoc = data[data.length - 1];
 
     let html = '<table class="table m-0">';
@@ -199,60 +198,20 @@ class View {
   }
 }
 
-class Crud {
-  constructor(collection) {
-    this.collection = collection;
-    this.orderByField = "created_at";
-    this.orderByType = "desc";
-    this.lastedDoc = null;
-    this.list = [];
-    this.pagination = 25;
-    this.refData = {};
-  }
-
-  orderBy(field, type="desc") {
-    this.orderByField = field;
-    this.orderByType = type;
-  }
-  
-  paginate(pagination) {
-    this.pagination = pagination;
-  }
-  
-  addList(field, config = {}) {
-    this.list.push({field: field, config: config});
-  }
-
-  async table() {
-    return await View.list(this);
-  }
-
-  async create() {
-    
-  }
-
-  store() {
+class Html {
+  constructor() {
 
   }
 
-  async edit() {
-
-  }
-  
-  update() {
-
-  }
-
-  delete() { 
-
-  }
-
-  async reference(collection, field) {
-    let ref = new Model(collection);
-    let data = await ref.all();
-    this[collection] = [];
-    data.forEach(doc => {
-      this[collection][doc.id] = doc.data()[field];
+  static options(el, data) {
+    let html = "";
+    data.forEach((item, index) => {
+      html += '<option value="' + index + '">' + item + '</option>';
     });
+    return html;
   }
+
 }
+
+
+

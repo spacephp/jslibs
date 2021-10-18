@@ -4,27 +4,27 @@ class Model {
     this.table = tableName;
     this.ref = db.collection(tableName);
   }
- 
+
   source(from) {
     this.getOptions = {
       source: 'cache'
     };
     return this;
   }
-  
+
   orderBy(field, type = "asc") {
     this.ref = this.ref.orderBy(field, type);
     return this;
   }
-  
+
   startAfter(lastDoc) {
     this.ref = this.ref.startAfter(lastDoc);
-    return this; 
+    return this;
   }
-  
+
   limit(pagination) {
     this.ref = this.ref.limit(pagination);
-    return this; 
+    return this;
   }
 
   where(field, operator, value) {

@@ -1,21 +1,13 @@
-model = open("model.js","r")
+modules = ["model.js", "auth.js", "view.js", "html.js", "run.js"]
 
-str = model.read() + "\r\n"
-
-auth = open("auth.js","r")
-
-str += auth.read() + "\r\n"
-
-view = open("view.js","r")
-
-str += view.read() + "\r\n"
+str = ""
+for m in modules:
+    file = open(m,"r")
+    str += file.read() + "\r\n"
+    file.close()
 
 build = open("firebase-core.js","w")
-
 build.write(str)
-
 build.close()
-model.close()
-auth.close()
-view.close()
+
 print("Done")
