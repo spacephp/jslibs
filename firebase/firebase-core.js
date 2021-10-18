@@ -146,6 +146,12 @@ class View {
     
   }
 
+  static create(crud) {
+    let html = "";
+    
+    return html;
+  }
+
   static async list(crud) {
     let ref = new Model(crud.collection);
     
@@ -225,6 +231,26 @@ class Crud {
 
   async table() {
     return await View.list(this);
+  }
+
+  async create() {
+    return View.create(this);
+  }
+
+  store() {
+
+  }
+
+  async edit() {
+
+  }
+  
+  update() {
+
+  }
+
+  delete() { 
+
   }
 
   async reference(collection, field) {
