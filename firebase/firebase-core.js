@@ -185,7 +185,7 @@ class View {
             break;
           case "reference":
             let id = itemData[configItem.field];
-            html += '<td>' + crud.ref[id] + '</td>';
+            html += '<td>' + crud[configItem.config.reference][id] + '</td>';
             break;
           default:
             html += '<td>' + itemData[configItem.field] +'</td>';
@@ -230,11 +230,9 @@ class Crud {
   async reference(collection, field) {
     let ref = new Model(collection);
     let data = await ref.all();
-    let result = [];
+    this[collection] = [];
     data.forEach(doc => {
-      result[doc.id] = doc.data()[field];
+      this[collection][doc.id] = doc.data()[field];
     });
-
-    this.ref = result;
   }
 }
