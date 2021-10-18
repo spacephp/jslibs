@@ -1,4 +1,4 @@
-modules = ["model.js", "auth.js", "view.js", "html.js", "run.js"]
+modules = ["model.js", "auth.js", "crud.js", "view.js", "html.js", "run.js"]
 
 str = ""
 for m in modules:
