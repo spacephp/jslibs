@@ -153,8 +153,7 @@ class View {
              .startAfter(crud.lastedDoc || new Date())
              .limit(crud.pagination)
              .get();
-
-    let refs = await crud.reference(data);
+    
     crud.lastDoc = data[data.length - 1];
 
     let html = '<table class="table m-0">';
@@ -207,7 +206,7 @@ class Crud {
     this.orderByType = "desc";
     this.lastedDoc = null;
     this.list = [];
-    this.pagination = 10;
+    this.pagination = 25;
     this.refData = {};
   }
 
