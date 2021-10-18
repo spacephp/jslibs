@@ -165,7 +165,7 @@ class View {
     html += '</tr>';
     html += '</thead>';
     html += '<tbody>';
-    console.log(refs);
+
     data.forEach((item) => {
       let itemData = item.data();
       html += '<tr id="' + item.id + '">';
