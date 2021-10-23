@@ -5,6 +5,11 @@ class Model {
     this.ref = db.collection(tableName);
   }
 
+  static collection(name) {
+    let model = new Model(name);
+    return model;
+  }
+
   source(from) {
     this.getOptions = {
       source: 'cache'
