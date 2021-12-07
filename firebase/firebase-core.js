@@ -77,8 +77,8 @@ class Model {
     return total;
   }
 
-  async delete() {
-
+  async delete(id) {
+    return await this.ref.doc(id).delete();
   }
 
   clone() {
