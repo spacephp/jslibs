@@ -223,9 +223,6 @@ class Crud1 {
         html += "<label for=\"" + field.name + "\" class=\"control-label\">" + field.name + ":</label>";
         switch (field.type) {
           case "reference":
-            $.each(_this.referece, (i2, val2) => {
-              _this.message(val2);
-            });
             html += "<select class=\"form-control\" name=\"" + field.name + "\" id=\"" + field.name + "\">";
             html += "<option disabled selected>Select...</option>";
             html += _this.options;
