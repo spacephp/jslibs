@@ -62,10 +62,18 @@ function _get(parameterName, def = "") {
 function dateToString(date) {
   let d = date.getDate();
   let m = date.getMonth() + 1;
-  if (m < 10) m = "0" + m;
-  if (d < 10) d = "0" + d;
   let y = date.getFullYear();
-  return y + "-" + m + "-" + d;
+  let h = date.getHours();
+  let mi = date.getMinutes();
+  let s = date.getSeconds();
+  return y + "-" + addZeroTime(m) + "-" + addZeroTime(d) + " " + addZeroTime(h) + ":" + addZeroTime(mi) + ":" + addZeroTime(s);
+}
+
+function addZeroTime(time) {
+  if (time < 10) {
+    return "0" + time; 
+  }
+  return time;
 }
 
 let vnd = (amount) => {
