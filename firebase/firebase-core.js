@@ -145,63 +145,263 @@ $( document ).ready(function() {
   });
 });
 
-class Crud {
-  constructor(collection) {
-    this.collection = collection;
-    this.orderByField = "created_at";
-    this.orderByType = "desc";
-    this.lastedDoc = null;
-    this.list = [];
-    this.pagination = 25;
-    this.refData = {};
+class Crud1 {
+    constructor() {
+      // variables
+      this.formId = "crudForm";
+      this.tableId = "crudTable";
+      this.centerTextClass = "text-center";
+      // model
+      this.collection = this._get("ref");
+      this.model = new Model(this.collection);
+      // actions
+      let _this = this;
+      $("#" + this.tableId ).on('click', ".deleteBtn" ,async function() {
+        if (confirm('Are you sure?')) {
+          let id = $(this).closest('tr').attr('id');
+          await _this.delete(id);
+          _this.message(id + ' deleted!!!');
+          _this.reset();
+        }
+      });
+      $("#" + this.tableId ).on('click', ".editBtn" ,function() {
+        let id = $(this).closest('tr').attr('id');
+        _this.edit(id);
+      });
+    }
+
+    _get(parameterName, def = "") {
+      var result = null,
+              tmp = [];
+      var items = location.search.substr(1).split("&");
+      for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+      }
+      if (result == undefined) {
+        return def;
+      }
+      return result;
+    }
+
+    async init(config) {
+      this.config = config[this.collection];
+      await this.getReference();
+    }
+
+    setCenterTextClass(className) {
+      this.centerTextClass = className;
+    }
+
+    async load() {
+      this.create();
+      this.table();
+    }
+
+    async getReference() {
+      if (this.config.reference != undefined) {
+        let ref = [];
+        let model = new Model(this.config.reference.collection)
+        let docs = await model.all();
+        let options = "";
+        docs.forEach(doc => {
+          //this.message(doc.id + " " + doc.data()[this.config.reference.field]);
+          ref[doc.id] = doc.data()[this.config.reference.field];
+          options += "<option value=\"" + doc.id + "\">" + doc.data()[this.config.reference.field] + "</option>";
+        });
+        this.options = options;
+        this.reference = ref;
+      }
+    }
+
+    async create() {
+      let _this = this;
+      let html = "<div class=\"modal-body\">";
+      html += "<input type=\"hidden\" class=\"form-control\" id=\"docId\" value=\'\'>";
+      $.each(this.config.fields, function(i, field) {
+        html += "<div class=\"form-group\">";
+        html += "<label for=\"" + field.name + "\" class=\"control-label\">" + field.name + ":</label>";
+        switch (field.type) {
+          case "reference":
+            $.each(_this.referece, (i2, val2) => {
+              _this.message(val2);
+            });
+            html += "<select class=\"form-control\" name=\"" + field.name + "\" id=\"" + field.name + "\">";
+            html += "<option disabled selected>Select...</option>";
+            html += _this.options;
+            html += "</select>";
+            break;
+          default:
+            html += "<input type=\"text\" class=\"form-control\" name=\"" + field.name + "\" id=\"" + field.name + "\" required=\"\">";
+        }
+        html += "</div>";
+      });
+      html +=  "</div>";
+      html +=  "<div class=\"modal-footer\">";
+
+      html +=  "<button type=\"submit\" class=\"btn btn-primary\">Save</button>";
+      html +=  "</div>";
+      $("#" + this.formId).html(html);
+
+      let createForm = document.querySelector('#crudForm');
+      createForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let values = $("#crudForm").serializeArray();
+        let data = {};
+        $.each(values, (i, val) => {
+          data[val.name] = val.value;
+        });
+        $.each(this.config.fields, (i, field) => {
+          switch (field.type) {
+            case "number":
+              data[field.name] = Number(data[field.name]);
+              break;
+            case "boolean":
+              data[field.name] = (data[field.name] == "true");
+              break;
+            case "datetime":
+              data[field.name] = new Date(data[field.name]);
+          }
+        });
+
+        let id = $("#docId").val();
+        if (id) {
+          _this.update(id, data).then(() => {
+            $("#docId").val("");
+            _this.reset();
+          });;
+        } else {
+          _this.store(data).then(() => {
+            _this.reset();
+          });
+        }
+      });
+    }
+
+    async edit(id) {
+      let model = new Model(this.collection);
+      let data = await model.findById(id);
+      $("#docId").val(data.id);
+      data = data.data();
+      $.each(this.config.fields, (i, field) => {
+        let value = data[field.name];
+        switch (typeof(value)) {
+          case "string":
+            break;
+          case "number":
+            break;
+          case "object":
+            if (value.constructor.name == "ei") {
+              value = dateToString(value.toDate())
+            }
+            break;
+        }
+        $("#" + field.name).val(value);
+      });
+    }
+
+    async update(id, data) {
+      let model = new Model(this.collection);
+      let result = await model.update(id, data);
+      this.message('Save success!!!');
+      return result;
+    }
+
+    async store(data) {
+      let model = new Model(this.collection);
+      let result = await model.create(data);
+      this.message("Added success!!!")
+      return result;
+    }
+
+    message(str) {
+      if (typeof toastr !== 'undefined') {
+        toastr.success(str);
+      } else {
+        alert(str);
+      }
+    }
+
+    reset() {
+      $('#crudForm').trigger("reset");
+      this.table();
+    }
+
+    async delete(id) {
+      let model = new Model(this.collection);
+      return await model.delete(id);
+    }
+
+    async table() {
+      let model = new Model(this.collection);
+      model.orderBy(this.config.orderBy.field, this.config.orderBy.type);
+      let data = await model.all();
+      let html = "<tbody>";
+      let title = this.titleHtml();
+      $.each(data, (index, val) => {
+        let doc = val.data();
+
+        html += "<tr id=\'" + val.id + "\'>";
+        $.each(this.config.fields, (i, field) => {
+          let value = doc[field.name];
+          switch (typeof(value)) {
+            case "undefined":
+              value = "...";
+              break;
+            case "string":
+              break;
+            case "number":
+              break;
+            case "object":
+              if (value.constructor.name == "ei") {
+                value = dateToString(value.toDate())
+              }
+              break;
+          }
+          switch (field.type) {
+            case "reference":
+
+              html += "<td>" + this.reference[value] + "</td>";
+              break;
+            default:
+              html += "<td>" + value + "</td>";
+          }
+        });
+        html += "<td><a href=\"javascript:void(0)\" class=\"editBtn\">Edit</a> | <a href=\"javascript:void(0)\" class=\"deleteBtn\">Delete</a></td>";
+        html += "</tr>";
+      });
+
+      html += "</tbody>";
+      html = title + html;
+
+      $("#crudTable").html(html);
+    }
+
+    titleHtml() {
+      let title = "<thead><tr>";
+      $.each(this.config.fields, (i, field) => {
+        title += "<th class=\"" + this.centerTextClass + "\">" + field.name + "</th>";
+      });
+      title += "<td class=\"" + this.centerTextClass + "\">Action</td>";
+      title += "</tr></thead>";
+      return title;
+    }
   }
 
-  orderBy(field, type="desc") {
-    this.orderByField = field;
-    this.orderByType = type;
+  class Crud2 extends Crud1 {
+    titleHtml() {
+      let title = "<thead><tr>";
+      $.each(this.config.fields, (i, field) => {
+        if (field.title != undefined) {
+          title += "<th class=\"" + this.centerTextClass + "\">" + field.title + "</th>";
+        } else {
+          title += "<th class=\"" + this.centerTextClass + "\">" + field.name + "</th>";
+        }
+      });
+      title += "</tr></thead>";
+      return title;
+    }
   }
-
-  paginate(pagination) {
-    this.pagination = pagination;
-  }
-
-  addList(field, config = {}) {
-    this.list.push({field: field, config: config});
-  }
-
-  async table() {
-    return await View.list(this);
-  }
-
-  async create() {
-
-  }
-
-  store() {
-
-  }
-
-  async edit() {
-
-  }
-
-  update() {
-
-  }
-
-  delete() {
-
-  }
-
-  async reference(collection, field) {
-    let ref = new Model(collection);
-    let data = await ref.all();
-    this[collection] = [];
-    data.forEach(doc => {
-      this[collection][doc.id] = doc.data()[field];
-    });
-  }
-}
 
 class View {
   constructor() {
