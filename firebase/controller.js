@@ -14,8 +14,8 @@ let loggedOut = () => {
 }
 
 // call model
-let getUser = () => {
+let getUser = async () => {
   let ref = new Model("users");
-  let user = ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
+  let user = await ref.findById("4pTmImOFt0SAYxAaiaflSW4MdLa2");
   console.log(user.data());
 }
