@@ -56,17 +56,28 @@ class Model {
     return this.get();
   }
 
-  async create(data, id = undefined) {
-    if (id != undefined) {
-      return await this.ref.doc(id).set(data);
+  async create(data) {
+    let result;
+    try {
+      result = await this.ref.add(data);
+    } catch (err) {
+      console.error(err);
+      return false;
     }
-    return await this.ref.add(data);
+    
+    return result;
   }
 
   async update(id, data) {
-    return await this.ref.doc(id).update(data);
+    try {
+      await this.ref.doc(id).update(data);
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+    return true;
   }
-
+  
   async sum(field) {
     let docs = await this.get();
     let total = 0;
