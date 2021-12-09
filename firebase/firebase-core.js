@@ -298,15 +298,20 @@ class Crud1 {
     }
 
     async update(id, data) {
+      console.log("save");
       let model = new Model(this.collection);
       let result = await model.update(id, data);
+      console.log("ssave succes");
       this.message('Save success!!!');
+      
       return result;
     }
 
     async store(data) {
+      console.log("create");
       let model = new Model(this.collection);
       let result = await model.create(data);
+      console.log("create success");
       this.message("Added success!!!")
       return result;
     }
