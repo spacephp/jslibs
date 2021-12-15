@@ -360,8 +360,15 @@ class Crud1 {
     async delete(id) {
       let model = new Model(this.collection);
       let doc = model.findById(id);
+      try {
+        await model.delete(id);
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+
       this.callback("delete", doc.data());
-      return await model.delete(id);
+      return true;
     }
 
     async table() {
