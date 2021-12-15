@@ -57,15 +57,12 @@ class Model {
   }
 
   async create(data) {
-    let result;
     try {
-      result = await this.ref.add(data);
+      return await this.ref.add(data);
     } catch (err) {
       console.error(err);
       return false;
     }
-    
-    return result;
   }
 
   async update(id, data) {
@@ -89,7 +86,13 @@ class Model {
   }
 
   async delete(id) {
-    return await this.ref.doc(id).delete();
+    try {
+      await this.ref.doc(id).delete();
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+    return true;
   }
 
   clone() {
@@ -311,14 +314,13 @@ class Crud1 {
     async update(id, data) {
       console.log("save");
       let model = new Model(this.collection);
-      try {
-        let result = await model.update(id, data);
-        this.callback("store", data);
-        console.log("Save success");
-        this.message("Saved success!!!")
-      } catch (err) {
-        console.log(err);
-      }
+      let result = await model.update(id, data);
+      if (! result) return false;
+
+      this.callback("store", data);
+      console.log("Save success");
+      this.message("Saved success!!!");
+
       return result;
     }
 
@@ -326,14 +328,14 @@ class Crud1 {
       console.log("create");
       let model = new Model(this.collection);
 
-      try {
-        let result = await model.create(data);
-        this.callback("update", data);
-        console.log("create success");
-        this.message("Added success!!!")
-      } catch (err) {
-        console.log(err);
-      }
+      let result = await model.create(data);
+
+
+      if (! result) return false;
+
+      this.callback("update", data);
+      console.log("create success");
+      this.message("Added success!!!");
       
       return result;
     }
@@ -360,15 +362,12 @@ class Crud1 {
     async delete(id) {
       let model = new Model(this.collection);
       let doc = model.findById(id);
-      try {
-        await model.delete(id);
-      } catch (e) {
-        console.error(e);
-        return false;
-      }
+      let result = await model.delete(id);
+      if (! result) return false;
 
       this.callback("delete", doc.data());
-      return true;
+
+      return result;
     }
 
     async table() {
