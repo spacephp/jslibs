@@ -151,7 +151,6 @@ $( document ).ready(function() {
   // listen for auth status changes
   auth.onAuthStateChanged(async user => {
     if (!user) {
-      if (loggedOut == undefined) location.reload();
       loggedOut();
     } else {
       loggedIn(user);
