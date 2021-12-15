@@ -315,6 +315,7 @@ class Crud1 {
       console.log("save");
       let model = new Model(this.collection);
       let result = await model.update(id, data);
+      console.log(result);
       if (! result) return false;
       console.log(data);
       this.callback("update", data);
