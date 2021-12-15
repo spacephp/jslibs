@@ -330,7 +330,6 @@ class Crud1 {
 
       let result = await model.create(data);
 
-
       if (! result) return false;
 
       this.callback("update", data);
@@ -361,7 +360,7 @@ class Crud1 {
 
     async delete(id) {
       let model = new Model(this.collection);
-      let doc = model.findById(id);
+      let doc = await model.findById(id);
       let result = await model.delete(id);
       if (! result) return false;
 
