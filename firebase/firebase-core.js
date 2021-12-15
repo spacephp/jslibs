@@ -313,6 +313,7 @@ class Crud1 {
       let model = new Model(this.collection);
       try {
         let result = await model.update(id, data);
+        this.callback("store", data);
         console.log("Save success");
         this.message("Saved success!!!")
       } catch (err) {
@@ -327,6 +328,7 @@ class Crud1 {
 
       try {
         let result = await model.create(data);
+        this.callback("update", data);
         console.log("create success");
         this.message("Added success!!!")
       } catch (err) {
@@ -334,6 +336,12 @@ class Crud1 {
       }
       
       return result;
+    }
+
+    callback(type, params) {
+      if (this.config.callback != undefined && this.config.callback[type] != undefined) {
+        this.config.callback[type](params);
+      }
     }
 
     message(str) {
@@ -351,6 +359,8 @@ class Crud1 {
 
     async delete(id) {
       let model = new Model(this.collection);
+      let doc = model.findById(id);
+      this.callback("delete", doc.data());
       return await model.delete(id);
     }
 
